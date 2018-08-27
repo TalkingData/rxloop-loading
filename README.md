@@ -40,7 +40,7 @@ app.model({
   },
 });
 
-app.getState('loading').subscribe((data) => {
+app.stream('loading').subscribe((data) => {
   console.log(data);
     // {
     //   epics: {
