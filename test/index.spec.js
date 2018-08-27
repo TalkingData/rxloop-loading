@@ -1,5 +1,5 @@
 import rxloop from '@rxloop/core';
-import { loading } from '../src/';
+import loading from '../src/';
 import { delay, mapTo } from "rxjs/operators";
 
 const app1 = rxloop();

@@ -1,4 +1,4 @@
-export function loading(
+export default function loading(
   config = {
     name: 'loading',
   }
