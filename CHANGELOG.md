@@ -1,3 +1,13 @@
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/TalkingData/rxloop-loading/compare/v0.1.2...v0.1.3) (2018-08-27)
+
+
+### Features
+
+* add ts support ([fbe76f0](https://github.com/TalkingData/rxloop-loading/commit/fbe76f0))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/TalkingData/rxloop-loading/compare/v0.1.1...v0.1.2) (2018-08-27)
 
