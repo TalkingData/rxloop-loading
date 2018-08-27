@@ -5,6 +5,3 @@
 ### Features
 
 * **plugin:** rxloop loading plugin ([3e48ddb](https://github.com/TalkingData/rxloop-loading/commit/3e48ddb))
-
-
-
