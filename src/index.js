@@ -30,24 +30,7 @@ export default function loading(
         },
         epicStart(state, action) {
           const epicCounterKey = `${action.epic}Counter`;
-          let epicCounter = 0;
-          
-          if (!state.epics[action.model]) {
-            let initEpics = {};
-            action.epics.forEach(item => {
-              initEpics[`${item}Counter`] = 0;
-              initEpics[item] = false;
-            });
-            return {
-              ...state,
-              epics: {
-                ...state.epics,
-                [action.model]: initEpics,
-              }
-            };
-          }
-
-          epicCounter = state.epics[action.model][epicCounterKey] + action.loading;
+          let epicCounter = state.epics[action.model][epicCounterKey] + action.loading;
           return {
             ...state,
             epics: {
@@ -77,6 +60,7 @@ export default function loading(
       },
     };
     this.model(_model);
+    this.stream('loading').subscribe();
   
     // hooks
     // 初始化 model 状态
