@@ -9,6 +9,7 @@ export interface API {
   onEpicStart$: Observable<any>,
   onEpicEnd$: Observable<any>,
   onEpicCancel$: Observable<any>,
+  onEpicError$: Observable<any>,
 }
 
 export type Plugin = (api: API) => void;

@@ -1,6 +1,6 @@
 import rxloop from '@rxloop/core';
 import loading from '../src/';
-import { delay, mapTo } from "rxjs/operators";
+import { delay, mapTo, map } from "rxjs/operators";
 
 const app1 = rxloop();
 
@@ -94,6 +94,49 @@ describe('test epic loading', () => {
             setDataCounter: 0,
             getSlowlyData: false,
             getSlowlyDataCounter: 0,
+          },
+        },
+      });
+      done();
+    }, 3000);
+  });
+});
+
+describe('test epic loading when error', () => {
+  const app = rxloop({
+    plugins: [ loading() ],
+  });
+  app.model({
+    name: 'test',
+    state: {},
+    reducers: {
+      add(state) {
+        return state;
+      }
+    },
+    epics: {
+      getDataError(action$) {
+        return action$.pipe(
+          delay(2000),
+          map(() => {
+            throw 'boom!';
+          }),
+        );
+      },
+    },
+  });
+
+  app.stream('loading').subscribe();
+
+  test('loading test', (done) => {
+    app.dispatch({ type: 'test/getDataError' });
+    setTimeout(() => {
+      expect(app.getState('loading')).toEqual({
+        global: 0,
+        epics: {
+          test: {
+            getDataError: false,
+            getDataErrorCounter: 0,
           },
         },
       });

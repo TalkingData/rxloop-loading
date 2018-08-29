@@ -3,7 +3,7 @@ export default function loading(
     name: 'loading',
   }
 ) {
-  return function init({ onModel$, onEpicStart$, onEpicEnd$, onEpicCancel$ }) {
+  return function init({ onModel$, onEpicStart$, onEpicEnd$, onEpicCancel$, onEpicError$ }) {
     const _model = {
       name: config.name,
       state: {
@@ -119,6 +119,25 @@ export default function loading(
     });
   
     onEpicEnd$
+    .subscribe(data => {
+      // this.dispatch({
+      //   type: 'loading/globalLoading',
+      //   loading: -1,
+      // });
+      // this.dispatch({
+      //   type: 'loading/modelLoading',
+      //   model: data.model,
+      //   loading: -1,
+      // });
+      this.dispatch({
+        epic: data.epic,
+        type: 'loading/epicLoading',
+        model: data.model,
+        loading: -1,
+      });
+    });
+
+    onEpicError$
     .subscribe(data => {
       // this.dispatch({
       //   type: 'loading/globalLoading',
