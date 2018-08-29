@@ -11,25 +11,24 @@ export default function loading(
         epics: {},
       },
       reducers: {
-        globalLoading(state, action) {
-          return {
-            ...state,
-            global: state.global + action.loading,
-          };
-        },
-        modelLoading(state, action) {
-          if (!state[action.model]) {
+        epicInit(state, action) {
+          if (!state.epics[action.model]) {
+            let initEpics = {};
+            action.epics.forEach(item => {
+              initEpics[`${item}Counter`] = 0;
+              initEpics[item] = false;
+            });
             return {
               ...state,
-              [action.model]: 0,
+              epics: {
+                ...state.epics,
+                [action.model]: initEpics,
+              }
             };
           }
-          return {
-            ...state,
-            [action.model]: state[action.model] + action.loading,
-          };
+          return state;
         },
-        epicLoading(state, action) {
+        epicStart(state, action) {
           const epicCounterKey = `${action.epic}Counter`;
           let epicCounter = 0;
           
@@ -48,22 +47,6 @@ export default function loading(
             };
           }
 
-          if (action.isCancel) {
-            return {
-              ...state,
-              global: state.global - state.epics[action.model][action.epic],
-              [action.model]: state[action.model] - state.epics[action.model][action.epic],
-              epics: {
-                ...state.epics,
-                [action.model]: {
-                  ...state.epics[action.model],
-                  [epicCounterKey]: 0,
-                  [action.epic]: false,
-                },
-              }
-            };
-          }
-
           epicCounter = state.epics[action.model][epicCounterKey] + action.loading;
           return {
             ...state,
@@ -76,8 +59,22 @@ export default function loading(
               },
             }
           };
-        }
-      }
+        },
+        epicStop(state, action) {
+          const epicCounterKey = `${action.epic}Counter`;
+          return {
+            ...state,
+            epics: {
+              ...state.epics,
+              [action.model]: {
+                ...state.epics[action.model],
+                [epicCounterKey]: 0,
+                [action.epic]: false,
+              },
+            }
+          };
+        },
+      },
     };
     this.model(_model);
   
@@ -85,34 +82,21 @@ export default function loading(
     // 初始化 model 状态
     onModel$
     .subscribe(data => {
-      this.dispatch({
-        type: 'loading/modelLoading',
-        model: data.model,
-        loading: 0,
-      });
-  
+      
       this.dispatch({
         epics: Object.keys(this._epics[data.model]),
-        type: 'loading/epicLoading',
+        type: 'loading/epicInit',
         model: data.model,
         loading: 0,
       });
+
     });
   
     onEpicStart$
     .subscribe(data => {
-      // this.dispatch({
-      //   type: 'loading/globalLoading',
-      //   loading: 1,
-      // });
-      // this.dispatch({
-      //   type: 'loading/modelLoading',
-      //   model: data.model,
-      //   loading: 1,
-      // });
       this.dispatch({
         epic: data.epic,
-        type: 'loading/epicLoading',
+        type: 'loading/epicStart',
         model: data.model,
         loading: 1,
       });
@@ -120,56 +104,31 @@ export default function loading(
   
     onEpicEnd$
     .subscribe(data => {
-      // this.dispatch({
-      //   type: 'loading/globalLoading',
-      //   loading: -1,
-      // });
-      // this.dispatch({
-      //   type: 'loading/modelLoading',
-      //   model: data.model,
-      //   loading: -1,
-      // });
       this.dispatch({
         epic: data.epic,
-        type: 'loading/epicLoading',
+        type: 'loading/epicStop',
         model: data.model,
-        loading: -1,
+        loading: 0,
+        isEnd: true,
       });
     });
 
     onEpicError$
     .subscribe(data => {
-      // this.dispatch({
-      //   type: 'loading/globalLoading',
-      //   loading: -1,
-      // });
-      // this.dispatch({
-      //   type: 'loading/modelLoading',
-      //   model: data.model,
-      //   loading: -1,
-      // });
       this.dispatch({
         epic: data.epic,
-        type: 'loading/epicLoading',
+        type: 'loading/epicStop',
         model: data.model,
-        loading: -1,
+        loading: 0,
+        isError: true,
       });
     });
   
     onEpicCancel$
     .subscribe(data => {
-      // this.dispatch({
-      //   type: 'loading/globalLoading',
-      //   loading: -1,
-      // });
-      // this.dispatch({
-      //   type: 'loading/modelLoading',
-      //   model: data.model,
-      //   loading: -1,
-      // });
       this.dispatch({
         epic: data.epic,
-        type: 'loading/epicLoading',
+        type: 'loading/epicStop',
         model: data.model,
         loading: 0,
         isCancel: true,
