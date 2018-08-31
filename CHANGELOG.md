@@ -7,17 +7,6 @@
 * fix onModel error ([14629cf](https://github.com/TalkingData/rxloop-loading/commit/14629cf))
 
 
-
-<a name="0.1.5"></a>
-## [0.1.5](https://github.com/TalkingData/rxloop-loading/compare/v0.1.4...v0.1.5) (2018-08-29)
-
-
-
-<a name="0.1.5"></a>
-## [0.1.5](https://github.com/TalkingData/rxloop-loading/compare/v0.1.4...v0.1.5) (2018-08-29)
-
-
-
 <a name="0.1.4"></a>
 ## [0.1.4](https://github.com/TalkingData/rxloop-loading/compare/v0.1.3...v0.1.4) (2018-08-29)
 
