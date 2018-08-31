@@ -1,6 +1,6 @@
 {
   "name": "@rxloop/loading",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "rxloop loading plugin.",
   "scripts": {
     "lint": "echo 'lint'",
