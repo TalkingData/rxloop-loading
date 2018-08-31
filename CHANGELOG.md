@@ -1,3 +1,8 @@
+<a name="0.1.9"></a>
+## [0.1.9](https://github.com/TalkingData/rxloop-loading/compare/v0.1.8...v0.1.9) (2018-08-31)
+
+
+
 <a name="0.1.6"></a>
 ## [0.1.6](https://github.com/TalkingData/rxloop-loading/compare/v0.1.5...v0.1.6) (2018-08-29)
 
