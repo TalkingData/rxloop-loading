@@ -15,6 +15,7 @@ app.model({
   },
   reducers: {
     add(state) {
+      state.__action__ = void 0;
       return state;
     },
   },
@@ -43,6 +44,10 @@ app.model({
     },
   },
 });
+
+// app.stream('loading').subscribe(data => console.log(data));
+
+app.start();
 
 describe('test epic loading', () => {
   test('exposes the public API', () => {
@@ -125,6 +130,8 @@ describe('test epic loading when error', () => {
       },
     },
   });
+
+  app.start();
 
   app.stream('loading').subscribe();
 

@@ -16,11 +16,12 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@rxloop/core@^0.8.1":
-  version "0.8.1"
-  resolved "https://registry.npmjs.org/@rxloop/core/-/core-0.8.1.tgz#f809b14a72eba9c188de1baf0f5350b7bd1ee85d"
+"@rxloop/core@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.npmjs.org/@rxloop/core/-/core-0.10.0.tgz#8ce18326f85444d692b326968756b9605dece736"
   dependencies:
     invariant "^2.2.4"
+    is-plain-object "^2.0.4"
     rxjs "^6.0.0"
 
 "@types/estree@0.0.38":

@@ -3,7 +3,14 @@ export default function loading(
     name: 'loading',
   }
 ) {
-  return function init({ onModel$, onEpicStart$, onEpicEnd$, onEpicCancel$, onEpicError$ }) {
+  return function init({
+    onModel$,
+    onEpicStart$,
+    onEpicEnd$,
+    onEpicCancel$,
+    onEpicError$,
+    onStart$,
+   }) {
     const _model = {
       name: config.name,
       state: {
@@ -11,28 +18,19 @@ export default function loading(
         epics: {},
       },
       reducers: {
-        epicInit(state, action) {
-          if (!state.epics[action.model]) {
-            let initEpics = {};
-            action.epics.forEach(item => {
-              initEpics[`${item}Counter`] = 0;
-              initEpics[item] = false;
-            });
-            return {
-              ...state,
-              epics: {
-                ...state.epics,
-                [action.model]: initEpics,
-              }
-            };
-          }
-          return state;
+        init(state, action) {
+          state.__action__ = void 0;
+          return {
+            ...state,
+            epics: action.epics,
+          };
         },
         epicStart(state, action) {
           const epicCounterKey = `${action.epic}Counter`;
           let epicCounter = state.epics[action.model][epicCounterKey] + action.loading;
           return {
             ...state,
+            __action__: void 0,
             epics: {
               ...state.epics,
               [action.model]: {
@@ -47,6 +45,7 @@ export default function loading(
           const epicCounterKey = `${action.epic}Counter`;
           return {
             ...state,
+            __action__: void 0,
             epics: {
               ...state.epics,
               [action.model]: {
@@ -63,19 +62,23 @@ export default function loading(
     this.stream('loading').subscribe();
   
     // hooks
-    // 初始化 model 状态
-    onModel$
-    .subscribe(data => {
-      
-      this.dispatch({
-        epics: Object.keys(this._epics[data.model]),
-        type: 'loading/epicInit',
-        model: data.model,
-        loading: 0,
+    onStart$
+    .subscribe(() => {
+      const epics = {};
+      Object.keys(this._stream).forEach((model) => {
+        if (model === 'loading') return;
+        epics[model] = {};
+        Object.keys(this._epics[model]).forEach((epic) => {
+          epics[model][epic] = false;
+          epics[model][`${epic}Counter`] = 0;
+        });
       });
-
+      this.dispatch({
+        epics,
+        type: 'loading/init',
+      });
     });
-  
+ 
     onEpicStart$
     .subscribe(data => {
       this.dispatch({
