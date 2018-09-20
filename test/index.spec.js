@@ -15,7 +15,6 @@ app.model({
   },
   reducers: {
     add(state) {
-      state.__action__ = void 0;
       return state;
     },
   },
@@ -56,7 +55,9 @@ describe('test epic loading', () => {
   });
 
   test('loading state', () => {
-    expect(app.getState('loading')).toEqual({
+    const state = app.getState('loading');
+    delete state.__action__;
+    expect(state).toEqual({
       global: 0,
       epics: {
         test: {
@@ -75,6 +76,8 @@ describe('test epic loading', () => {
     app.dispatch({
       type: 'test/getSlowlyData',
     });
+    const state = app.getState('loading');
+    delete state.__action__;
     expect(app.getState('loading')).toEqual({
       global: 0,
       epics: {
@@ -89,7 +92,9 @@ describe('test epic loading', () => {
       },
     });
     setTimeout(() => {
-      expect(app.getState('loading')).toEqual({
+      const state = app.getState('loading');
+      delete state.__action__;
+      expect(state).toEqual({
         global: 0,
         epics: {
           test: {
@@ -138,7 +143,9 @@ describe('test epic loading when error', () => {
   test('loading test', (done) => {
     app.dispatch({ type: 'test/getDataError' });
     setTimeout(() => {
-      expect(app.getState('loading')).toEqual({
+      const state = app.getState('loading');
+      delete state.__action__;
+      expect(state).toEqual({
         global: 0,
         epics: {
           test: {

@@ -19,42 +19,26 @@ export default function loading(
       },
       reducers: {
         init(state, action) {
-          state.__action__ = void 0;
-          return {
-            ...state,
-            epics: action.epics,
-          };
+          state.epics = action.epics;
+          
+          return state;
         },
         epicStart(state, action) {
           const epicCounterKey = `${action.epic}Counter`;
           let epicCounter = state.epics[action.model][epicCounterKey] + action.loading;
-          return {
-            ...state,
-            __action__: void 0,
-            epics: {
-              ...state.epics,
-              [action.model]: {
-                ...state.epics[action.model],
-                [epicCounterKey]: epicCounter,
-                [action.epic]: (epicCounter > 0)
-              },
-            }
-          };
+
+          state.epics[action.model][epicCounterKey] = epicCounter;
+          state.epics[action.model][action.epic] = epicCounter > 0;
+
+          return state;
         },
         epicStop(state, action) {
           const epicCounterKey = `${action.epic}Counter`;
-          return {
-            ...state,
-            __action__: void 0,
-            epics: {
-              ...state.epics,
-              [action.model]: {
-                ...state.epics[action.model],
-                [epicCounterKey]: 0,
-                [action.epic]: false,
-              },
-            }
-          };
+
+          state.epics[action.model][epicCounterKey] = 0;
+          state.epics[action.model][action.epic] = false;
+
+          return state;
         },
       },
     };
