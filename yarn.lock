@@ -16,9 +16,9 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@rxloop/core@^0.10.0":
-  version "0.10.0"
-  resolved "https://registry.npmjs.org/@rxloop/core/-/core-0.10.0.tgz#8ce18326f85444d692b326968756b9605dece736"
+"@rxloop/core@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.npmjs.org/@rxloop/core/-/core-0.11.0.tgz#077daaf289dd5a0044dbf2314faf31a0b6f8b94f"
   dependencies:
     invariant "^2.2.4"
     is-plain-object "^2.0.4"
@@ -1916,6 +1916,10 @@ ignore-walk@^3.0.1:
   resolved "https://registry.npmjs.org/ignore-walk/-/ignore-walk-3.0.1.tgz#a83e62e7d272ac0e3b551aaa82831a19b69f82f8"
   dependencies:
     minimatch "^3.0.4"
+
+immer@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.npmjs.org/immer/-/immer-1.7.2.tgz#a51e9723c50b27e132f6566facbec1c85fc69547"
 
 import-local@^1.0.0:
   version "1.0.0"

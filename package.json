@@ -35,11 +35,10 @@
   },
   "homepage": "https://talkingdata.github.io/rxloop-loading",
   "peerDependencies": {
-    "@rxloop/core": ">= 0.10.0",
     "rxjs": "^6.0.0-0"
   },
   "devDependencies": {
-    "@rxloop/core": "^0.10.0",
+    "@rxloop/core": "^0.11.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.2",
     "babel-jest": "^22.4.3",
@@ -70,5 +69,8 @@
     "es",
     "src",
     "index.d.ts"
-  ]
+  ],
+  "dependencies": {
+    "immer": "^1.7.2"
+  }
 }

@@ -15,7 +15,10 @@ app.model({
   },
   reducers: {
     add(state) {
-      return state;
+      return {
+        ...state,
+        a: state.a + 1,
+      };
     },
   },
   epics: {
@@ -44,7 +47,7 @@ app.model({
   },
 });
 
-// app.stream('loading').subscribe(data => console.log(data));
+app.stream('test').subscribe();
 
 app.start();
 
@@ -55,10 +58,18 @@ describe('test epic loading', () => {
   });
 
   test('loading state', () => {
-    const state = app.getState('loading');
-    delete state.__action__;
-    expect(state).toEqual({
-      global: 0,
+    expect(app.getState('test')).toEqual({
+      a: 1,
+      loading: {
+        getData: false,
+        getDataCounter: 0,
+        setData: false,
+        setDataCounter: 0,
+        getSlowlyData: false,
+        getSlowlyDataCounter: 0,
+      },
+    });
+    expect(app.getState('loading')).toEqual({
       epics: {
         test: {
           getData: false,
@@ -76,10 +87,18 @@ describe('test epic loading', () => {
     app.dispatch({
       type: 'test/getSlowlyData',
     });
-    const state = app.getState('loading');
-    delete state.__action__;
+    expect(app.getState('test')).toEqual({
+      a: 1,
+      loading: {
+        getData: false,
+        getDataCounter: 0,
+        setData: false,
+        setDataCounter: 0,
+        getSlowlyData: true,
+        getSlowlyDataCounter: 1,
+      },
+    });
     expect(app.getState('loading')).toEqual({
-      global: 0,
       epics: {
         test: {
           getData: false,
@@ -92,10 +111,18 @@ describe('test epic loading', () => {
       },
     });
     setTimeout(() => {
-      const state = app.getState('loading');
-      delete state.__action__;
-      expect(state).toEqual({
-        global: 0,
+      expect(app.getState('test')).toEqual({
+        a: 2,
+        loading: {
+          getData: false,
+          getDataCounter: 0,
+          setData: false,
+          setDataCounter: 0,
+          getSlowlyData: false,
+          getSlowlyDataCounter: 0,
+        },
+      });
+      expect(app.getState('loading')).toEqual({
         epics: {
           test: {
             getData: false,
@@ -137,16 +164,19 @@ describe('test epic loading when error', () => {
   });
 
   app.start();
-
   app.stream('loading').subscribe();
-
+  let state = null;
+  app.stream('test').subscribe(
+    data => (state = data),
+    () => {},
+  );
   test('loading test', (done) => {
     app.dispatch({ type: 'test/getDataError' });
     setTimeout(() => {
-      const state = app.getState('loading');
-      delete state.__action__;
-      expect(state).toEqual({
-        global: 0,
+      expect(state).toEqual(
+        { loading: { getDataErrorCounter: 0, getDataError: false } }
+      );
+      expect(app.getState('loading')).toEqual({
         epics: {
           test: {
             getDataError: false,
@@ -156,5 +186,48 @@ describe('test epic loading when error', () => {
       });
       done();
     }, 3000);
+  });
+});
+
+describe('test epic loading when error', () => {
+  const app = rxloop({
+    plugins: [ loading() ],
+  });
+  app.model({
+    name: 'test',
+    state: {
+      loading: true,
+    },
+    reducers: {
+      add(state) {
+        return state;
+      }
+    },
+    epics: {
+      getData(action$) {
+        return action$.pipe(
+          mapTo({
+            type: 'add',
+          }),
+        );
+      },
+    },
+  });
+
+  app.start();
+  app.stream('loading').subscribe();
+  
+  test('Should not to replace loading state', () => {
+    expect(app.getState('test')).toEqual({
+      loading: true,
+    });
+    expect(app.getState('loading')).toEqual({
+      epics: {
+        test: {
+          getDataCounter: 0,
+          getData: false,
+        }
+      }
+    });
   });
 });
