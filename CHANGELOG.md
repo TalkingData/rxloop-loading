@@ -1,3 +1,13 @@
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/TalkingData/rxloop-loading/compare/v0.2.0...v0.2.1) (2018-09-23)
+
+
+### Bug Fixes
+
+* remove immer ([2f6372d](https://github.com/TalkingData/rxloop-loading/commit/2f6372d))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/TalkingData/rxloop-loading/compare/v0.1.11...v0.2.0) (2018-09-23)
 
