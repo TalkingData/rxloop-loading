@@ -69,8 +69,5 @@
     "es",
     "src",
     "index.d.ts"
-  ],
-  "dependencies": {
-    "immer": "^1.7.2"
-  }
+  ]
 }

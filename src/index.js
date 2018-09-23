@@ -1,5 +1,3 @@
-import produce from "immer";
-
 export default function loading(
   config = {
     name: 'loading',
@@ -20,25 +18,23 @@ export default function loading(
       },
       reducers: {
         init(state, action) {
-          return produce(state, draft => {
-            draft.epics = action.epics;
-          });
+          state.epics = action.epics;
+          return state;
         },
         epicStart(state, action) {
-          return produce(state, draft => {
-            const epicCounterKey = `${action.epic}Counter`;
-            let epicCounter = draft.epics[action.model][epicCounterKey] + action.loading;
+          const epicCounterKey = `${action.epic}Counter`;
+          let epicCounter = state.epics[action.model][epicCounterKey] + action.loading;
 
-            draft.epics[action.model][epicCounterKey] = epicCounter;
-            draft.epics[action.model][action.epic] = epicCounter > 0;
-          });
+          state.epics[action.model][epicCounterKey] = epicCounter;
+          state.epics[action.model][action.epic] = epicCounter > 0;
+
+          return state;
         },
         epicStop(state, action) {
-          return produce(state, draft => {
-            const epicCounterKey = `${action.epic}Counter`;
-            draft.epics[action.model][epicCounterKey] = 0;
-            draft.epics[action.model][action.epic] = false;
-          });
+          const epicCounterKey = `${action.epic}Counter`;
+          state.epics[action.model][epicCounterKey] = 0;
+          state.epics[action.model][action.epic] = false;
+          return state;
         },
       },
     };
@@ -63,19 +59,17 @@ export default function loading(
       model.reducers.loadingEnd = loadingEnd;
 
       function loadingStart(state, { payload: { epic } }) {
-        return produce(state, draft => {
-          const epicCounterKey = `${epic}Counter`;
-          const epicCounter = draft.loading[epicCounterKey] + 1
-          draft.loading[epicCounterKey] = epicCounter;
-          draft.loading[epic] = epicCounter > 0;
-        });
+        const epicCounterKey = `${epic}Counter`;
+        const epicCounter = state.loading[epicCounterKey] + 1
+        state.loading[epicCounterKey] = epicCounter;
+        state.loading[epic] = epicCounter > 0;
+        return state;
       }
 
       function loadingEnd(state, { payload: { epic } }) {
-        return produce(state, draft => {
-          draft.loading[`${epic}Counter`] = 0;
-          draft.loading[epic] = false;
-        });
+        state.loading[`${epic}Counter`] = 0;
+        state.loading[epic] = false;
+        return state;
       }
     });
   
