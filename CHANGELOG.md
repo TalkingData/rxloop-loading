@@ -1,3 +1,13 @@
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/TalkingData/rxloop-loading/compare/v0.1.11...v0.2.0) (2018-09-23)
+
+
+### Features
+
+* support model mode ([07c262f](https://github.com/TalkingData/rxloop-loading/commit/07c262f))
+
+
+
 <a name="0.1.11"></a>
 ## [0.1.11](https://github.com/TalkingData/rxloop-loading/compare/v0.1.10...v0.1.11) (2018-09-20)
 
