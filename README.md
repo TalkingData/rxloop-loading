@@ -22,7 +22,7 @@ app.model({
       return state;
     },
   },
-  epics: {
+  pipes: {
     getData(action$) {
       return action$.pipe(
         mapTo({
@@ -43,7 +43,7 @@ app.model({
 app.stream('loading').subscribe((data) => {
   console.log(data);
     // {
-    //   epics: {
+    //   pipes: {
     //     modelA: {
     //       getData: false,
     //       getDataCounter: 0,

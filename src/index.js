@@ -5,35 +5,35 @@ export default function loading(
 ) {
   return function init({
     onModelBeforeCreate$,
-    onEpicStart$,
-    onEpicEnd$,
-    onEpicCancel$,
-    onEpicError$,
+    onPipeStart$,
+    onPipeEnd$,
+    onPipeCancel$,
+    onPipeError$,
     onStart$,
    }) {
     const _model = {
       name: config.name,
       state: {
-        epics: {},
+        pipes: {},
       },
       reducers: {
         init(state, action) {
-          state.epics = action.epics;
+          state.pipes = action.pipes;
           return state;
         },
-        epicStart(state, action) {
-          const epicCounterKey = `${action.epic}Counter`;
-          let epicCounter = state.epics[action.model][epicCounterKey] + action.loading;
+        pipeStart(state, action) {
+          const pipeCounterKey = `${action.pipe}Counter`;
+          let pipeCounter = state.pipes[action.model][pipeCounterKey] + action.loading;
 
-          state.epics[action.model][epicCounterKey] = epicCounter;
-          state.epics[action.model][action.epic] = epicCounter > 0;
+          state.pipes[action.model][pipeCounterKey] = pipeCounter;
+          state.pipes[action.model][action.pipe] = pipeCounter > 0;
 
           return state;
         },
-        epicStop(state, action) {
-          const epicCounterKey = `${action.epic}Counter`;
-          state.epics[action.model][epicCounterKey] = 0;
-          state.epics[action.model][action.epic] = false;
+        pipeStop(state, action) {
+          const pipeCounterKey = `${action.pipe}Counter`;
+          state.pipes[action.model][pipeCounterKey] = 0;
+          state.pipes[action.model][action.pipe] = false;
           return state;
         },
       },
@@ -44,104 +44,104 @@ export default function loading(
     onModelBeforeCreate$.subscribe(({ model }) => {
       if (
         typeof model.state !== 'object' ||
-        !model.epics ||
+        !model.pipes ||
         model.state.loading !== void 0
       ) return;
 
       const loading = {};
-      Object.keys(model.epics).forEach(epic => {
-        loading[`${epic}Counter`] = 0;
-        loading[epic] = false;
+      Object.keys(model.pipes).forEach(pipe => {
+        loading[`${pipe}Counter`] = 0;
+        loading[pipe] = false;
       });
 
       model.state.loading = loading;
       model.reducers.loadingStart = loadingStart;
       model.reducers.loadingEnd = loadingEnd;
 
-      function loadingStart(state, { payload: { epic } }) {
-        const epicCounterKey = `${epic}Counter`;
-        const epicCounter = state.loading[epicCounterKey] + 1
-        state.loading[epicCounterKey] = epicCounter;
-        state.loading[epic] = epicCounter > 0;
+      function loadingStart(state, { payload: { pipe } }) {
+        const pipeCounterKey = `${pipe}Counter`;
+        const pipeCounter = state.loading[pipeCounterKey] + 1
+        state.loading[pipeCounterKey] = pipeCounter;
+        state.loading[pipe] = pipeCounter > 0;
         return state;
       }
 
-      function loadingEnd(state, { payload: { epic } }) {
-        state.loading[`${epic}Counter`] = 0;
-        state.loading[epic] = false;
+      function loadingEnd(state, { payload: { pipe } }) {
+        state.loading[`${pipe}Counter`] = 0;
+        state.loading[pipe] = false;
         return state;
       }
     });
   
     // hooks
     onStart$.subscribe(() => {
-      const epics = {};
+      const pipes = {};
       Object.keys(this._stream).forEach((model) => {
         if (model === 'loading') return;
-        epics[model] = {};
-        Object.keys(this._epics[model]).forEach((epic) => {
-          epics[model][epic] = false;
-          epics[model][`${epic}Counter`] = 0;
+        pipes[model] = {};
+        Object.keys(this._pipes[model]).forEach((pipe) => {
+          pipes[model][pipe] = false;
+          pipes[model][`${pipe}Counter`] = 0;
         });
       });
       this.dispatch({
-        epics,
+        pipes,
         type: 'loading/init',
       });
     });
  
-    onEpicStart$.subscribe(({ model, epic }) => {
+    onPipeStart$.subscribe(({ model, pipe }) => {
       this.dispatch({
         model,
-        epic,
-        type: 'loading/epicStart',
+        pipe,
+        type: 'loading/pipeStart',
         loading: 1,
       });
       this.dispatch({
         type: `${model}/loadingStart`,
-        payload: { epic },
+        payload: { pipe },
       });
     });
   
-    onEpicEnd$.subscribe(({ model, epic }) => {
+    onPipeEnd$.subscribe(({ model, pipe }) => {
       this.dispatch({
         model,
-        epic,
-        type: 'loading/epicStop',
+        pipe,
+        type: 'loading/pipeStop',
         loading: 0,
         isEnd: true,
       });
       this.dispatch({
         type: `${model}/loadingEnd`,
-        payload: { epic },
+        payload: { pipe },
       });
     });
 
-    onEpicError$.subscribe(({ model, epic }) => {
+    onPipeError$.subscribe(({ model, pipe }) => {
       this.dispatch({
         model,
-        epic,
-        type: 'loading/epicStop',
+        pipe,
+        type: 'loading/pipeStop',
         loading: 0,
         isError: true,
       });
       this.dispatch({
         type: `${model}/loadingEnd`,
-        payload: { epic },
+        payload: { pipe },
       });
     });
   
-    onEpicCancel$.subscribe(({ model, epic }) => {
+    onPipeCancel$.subscribe(({ model, pipe }) => {
       this.dispatch({
         model,
-        epic,
-        type: 'loading/epicStop',
+        pipe,
+        type: 'loading/pipeStop',
         loading: 0,
         isCancel: true,
       });
       this.dispatch({
         type: `${model}/loadingEnd`,
-        payload: { epic },
+        payload: { pipe },
       });
     });
   };

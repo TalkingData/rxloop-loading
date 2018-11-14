@@ -35,7 +35,8 @@
   },
   "homepage": "https://talkingdata.github.io/rxloop-loading",
   "peerDependencies": {
-    "rxjs": "^6.0.0-0"
+    "rxjs": "^6.0.0-0",
+    "@rxloop/core": "^1.0.0-alpha.3-0"
   },
   "devDependencies": {
     "@rxloop/core": "^0.11.0",

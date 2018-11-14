@@ -6,10 +6,10 @@ export interface Config {
 
 export interface API {
   onModel$: Observable<any>,
-  onEpicStart$: Observable<any>,
-  onEpicEnd$: Observable<any>,
-  onEpicCancel$: Observable<any>,
-  onEpicError$: Observable<any>,
+  onPipeStart$: Observable<any>,
+  onPipeEnd$: Observable<any>,
+  onPipeCancel$: Observable<any>,
+  onPipeError$: Observable<any>,
 }
 
 export type Plugin = (api: API) => void;

@@ -48,7 +48,7 @@
 
 ### Bug Fixes
 
-* loading state error when epic error ([c88777d](https://github.com/TalkingData/rxloop-loading/commit/c88777d))
+* loading state error when pipe error ([c88777d](https://github.com/TalkingData/rxloop-loading/commit/c88777d))
 
 
 
@@ -58,7 +58,7 @@
 
 ### Bug Fixes
 
-* loading state error when epic error ([c88777d](https://github.com/TalkingData/rxloop-loading/commit/c88777d))
+* loading state error when pipe error ([c88777d](https://github.com/TalkingData/rxloop-loading/commit/c88777d))
 
 
 
