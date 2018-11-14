@@ -40,8 +40,12 @@ app.model({
   },
 });
 
-app.stream('loading').subscribe((data) => {
-  console.log(data);
+app.stream('modelA').subscribe((state) => {
+  console.log(state.loading.getData);
+});
+
+app.stream('loading').subscribe((state) => {
+  console.log(state);
     // {
     //   pipes: {
     //     modelA: {
