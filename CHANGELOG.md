@@ -1,3 +1,7 @@
+## [0.2.4](https://github.com/TalkingData/rxloop-loading/compare/v0.2.2...v0.2.4) (2019-10-11)
+
+
+
 ## [0.2.2](https://github.com/TalkingData/rxloop-loading/compare/v0.2.1...v0.2.2) (2018-11-14)
 
 
