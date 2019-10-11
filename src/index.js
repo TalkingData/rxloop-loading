@@ -39,7 +39,7 @@ export default function loading(
       },
     };
     this.model(_model);
-    this.stream('loading').subscribe();
+    this.stream(config.name).subscribe();
 
     onModelBeforeCreate$.subscribe(({ model }) => {
       if (
@@ -86,7 +86,7 @@ export default function loading(
       });
       this.dispatch({
         pipes,
-        type: 'loading/init',
+        type: `${config.name}/init`,
       });
     });
  
@@ -94,7 +94,7 @@ export default function loading(
       this.dispatch({
         model,
         pipe,
-        type: 'loading/pipeStart',
+        type: `${config.name}/pipeStart`,
         loading: 1,
       });
       this.dispatch({
@@ -107,7 +107,7 @@ export default function loading(
       this.dispatch({
         model,
         pipe,
-        type: 'loading/pipeStop',
+        type: `${config.name}/pipeStop`,
         loading: 0,
         isEnd: true,
       });
@@ -121,7 +121,7 @@ export default function loading(
       this.dispatch({
         model,
         pipe,
-        type: 'loading/pipeStop',
+        type: `${config.name}/pipeStop`,
         loading: 0,
         isError: true,
       });
@@ -135,7 +135,7 @@ export default function loading(
       this.dispatch({
         model,
         pipe,
-        type: 'loading/pipeStop',
+        type: `${config.name}/pipeStop`,
         loading: 0,
         isCancel: true,
       });
