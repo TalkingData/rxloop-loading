@@ -1,4 +1,5 @@
 # rxloop-loading
+https://github.com/TalkingData/rxloop/tree/master/packages/loading
 
 > rxloop loading plugin
 
